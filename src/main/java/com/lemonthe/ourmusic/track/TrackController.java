@@ -37,7 +37,7 @@ public class TrackController {
     if (tracks.isEmpty()) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
-    return ResponseEntity.ok(trackService.getTracks());
+    return ResponseEntity.ok(tracks);
   }
 
   @GetMapping("/{id}")
