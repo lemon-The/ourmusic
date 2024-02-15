@@ -41,7 +41,7 @@ public class TrackController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<?> getTrack(@PathVariable Long id) {
+  public ResponseEntity<Track> getTrack(@PathVariable Long id) {
     // TODO find more clean way to handle optional
     return ResponseEntity.ok(trackService
         .getTrack(id)
