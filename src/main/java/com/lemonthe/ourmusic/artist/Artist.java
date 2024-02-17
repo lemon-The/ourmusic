@@ -21,4 +21,8 @@ public class Artist {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
   private String name;
+
+  public Artist(String name) {
+    this.name = name;
+  }
 }
