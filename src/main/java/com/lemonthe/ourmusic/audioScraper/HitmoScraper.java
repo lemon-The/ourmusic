@@ -13,16 +13,18 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import lombok.Setter;
 
 /**
  * HitmoScraper
  */
+@Component
 public class HitmoScraper implements AudioScraper {
 
   @Setter
-  @Value("$(scraper.hitmo.url)")
+  @Value("${scraper.hitmo.url}")
   private String hitmoURL;
 
   @Override
@@ -82,13 +84,14 @@ public class HitmoScraper implements AudioScraper {
   }
 
   private String fetchCoverLocation(String coverString) {
-    int startIndex = coverString.indexOf('(') + 3;
+    int startIndex = coverString.indexOf('(') + 1;
     int endIndex = coverString.lastIndexOf(')') - 1;
     return coverString.substring(startIndex, endIndex);
   }
 
   private String fetchAudioLocation(String audioString) {
-    int startIndex = audioString.indexOf('/', hitmoURL.length() - 1) + 1;
+    //int startIndex = audioString.indexOf('/', hitmoURL.length() - 1) + 1;
+    int startIndex = 0;
     int endIndex = audioString.length();
     return audioString.substring(startIndex, endIndex);
   }
