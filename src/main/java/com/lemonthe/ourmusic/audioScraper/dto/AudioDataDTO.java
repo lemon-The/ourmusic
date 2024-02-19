@@ -1,5 +1,7 @@
 package com.lemonthe.ourmusic.audioScraper.dto;
 
+import com.lemonthe.ourmusic.audioScraper.AudioSource;
+
 /**
  * AudioDataDTO
  */
@@ -8,4 +10,5 @@ public record AudioDataDTO(
 		String title,
 		String artist,
 		String coverURL,
-		String trackURL) {}
+		String trackURL,
+		AudioSource source) {}
