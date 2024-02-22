@@ -1,4 +1,4 @@
-package com.lemonthe.ourmusic.audioScraper;
+package com.lemonthe.ourmusic.scraper;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -22,7 +22,7 @@ import lombok.Setter;
  */
 // TODO rename HitmoScraper
 @Component
-public class HitmoResource implements AudioResource {
+public class HitmoScraper implements Scraper {
 
   @Setter
   @Value("${audio-resource.hitmo.url:https://rus.hitmotop.com/}")
@@ -31,13 +31,13 @@ public class HitmoResource implements AudioResource {
 	private final String hitmoName = "hitmo";
 
 	@Override
-	public String getResourceName() {
+	public String getWebsiteName() {
 		return hitmoName;
 	}
 
   @Override
   public List<AudioData> scrapAudio(String searchQuery)
-			throws AudioScrapingException {
+			throws ScrapingException {
     List<AudioData> data = new LinkedList<>();
 		int audioDataIndex = 0;
 
@@ -75,7 +75,7 @@ public class HitmoResource implements AudioResource {
   }
 
   private Document fetchHTMLPage(String query, int start)
-      throws AudioScrapingException {
+      throws ScrapingException {
     try {
       return Jsoup.connect(hitmoURL + "search/start/" + start)
           .userAgent("Mozilla")
@@ -85,9 +85,9 @@ public class HitmoResource implements AudioResource {
         | HttpStatusException
         | UnsupportedMimeTypeException
         | SocketTimeoutException e) {
-      throw new AudioScrapingException(e);
+      throw new ScrapingException(e);
     } catch (IOException e) {
-      throw new AudioScrapingException(e);
+      throw new ScrapingException(e);
     }
   }
 

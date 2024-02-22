@@ -1,4 +1,4 @@
-package com.lemonthe.ourmusic.audioScraper;
+package com.lemonthe.ourmusic.scraper;
 
 import java.util.List;
 import java.util.Optional;

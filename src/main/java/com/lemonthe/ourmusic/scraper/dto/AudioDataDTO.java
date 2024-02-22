@@ -1,4 +1,4 @@
-package com.lemonthe.ourmusic.audioScraper.dto;
+package com.lemonthe.ourmusic.scraper.dto;
 
 /**
  * AudioDataDTO

@@ -1,4 +1,4 @@
-package com.lemonthe.ourmusic.audioScraper;
+package com.lemonthe.ourmusic.scraper;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
