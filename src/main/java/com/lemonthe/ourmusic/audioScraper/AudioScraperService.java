@@ -53,24 +53,23 @@ public class AudioScraperService {
 	// }
 
 	@Transactional
-	public List<AudioData> getAudioData(String query, String resourceName)
+	public List<AudioData> getAudioData(String query, String resourceName, boolean reloadRequired)
 			throws AudioScrapingException {
 		List<AudioData> data = audioDataRepo
 				.findBySearchQueryAndResource(query, resourceName);
 
-		if (data.isEmpty()) {
+		if (data.isEmpty() || reloadRequired) {
 			AudioResource currentAudioResource = audioResources
 					.stream()
 					.filter(res -> res.getResourceName().equals(resourceName))
 					.findAny()
 					.orElseThrow(() -> new AudioScrapingException("Incorrect resource name"));
-
-			data = saveAudioData(query, currentAudioResource);
+			data = loadAudioData(query, currentAudioResource);
 		}
 		return data;
 	}
 
-	private List<AudioData> saveAudioData(String query, AudioResource resource)
+	private List<AudioData> loadAudioData(String query, AudioResource resource)
 			throws AudioScrapingException {
 
 		List<AudioData> data = resource.scrapAudio(query);

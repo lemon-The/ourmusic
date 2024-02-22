@@ -27,30 +27,14 @@ public class AudioScraperController {
 	@Autowired
 	private AudioScraperService audioScraperService;
 
-	//@GetMapping
-	//public ResponseEntity<List<AudioDataDTO>> getAudioData(
-	//		@RequestParam("q") String query) throws AudioScrapingException {
-	//	//try {
-	//		List<AudioDataDTO> audioDataDTOs = audioScraperService.getAudioData(query)
-	//			.stream()
-	//			.map(data -> AudioDataMapper.asAudioDataDTO(data))
-	//			.collect(Collectors.toList());
-	//		if (audioDataDTOs.isEmpty()) {
-	//			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-	//		}
-	//		return ResponseEntity.ok(audioDataDTOs);
-	//	//} catch (AudioScrapingException e) {
-	//		//throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
-	//	//}
-	//}
-
 	@GetMapping
 	public ResponseEntity<List<AudioDataDTO>> getAudioData(
 			@RequestParam("q") String query,
-			@RequestParam(required = true, value = "src") String audioSourceAlias)
+			@RequestParam(value = "r", defaultValue = "false", required = false) boolean reloadRequired,
+			@RequestParam("src") String resourceName)
 			 throws AudioScrapingException {
 
-		List<AudioDataDTO> audioDataDTOs = audioScraperService.getAudioData(query, audioSourceAlias)
+		List<AudioDataDTO> audioDataDTOs = audioScraperService.getAudioData(query, resourceName, reloadRequired)
 			.stream()
 			.map(data -> AudioDataMapper.asAudioDataDTO(data))
 			.collect(Collectors.toList());
