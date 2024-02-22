@@ -2,8 +2,10 @@ package com.lemonthe.ourmusic.audioScraper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,12 +18,12 @@ import lombok.Setter;
 public class AudioScraperService {
 
 	private AudioDataRepository audioDataRepo;
-	private AudioScraper audioScraper;
+	private List<AudioResource> audioResources;
 
 	public AudioScraperService(AudioDataRepository audioDataRepo,
-			AudioScraper audioScraper) {
+			List<AudioResource> audioScraper) {
 		this.audioDataRepo = audioDataRepo;
-		this.audioScraper = audioScraper;
+		this.audioResources = audioScraper;
 	}
 
 	// @Transactional
@@ -30,27 +32,27 @@ public class AudioScraperService {
 	// }
 
 	@Transactional
-	public List<AudioData> getAudioData(String query)
+	public List<AudioData> getAudioData(String query, String resourceName)
 			throws AudioScrapingException {
-		return fetchAudioDataByQuery(query);
-	}
-
-	private List<AudioData> fetchAudioDataByQuery(String query)
-			throws AudioScrapingException {
-		List<AudioData> data = new ArrayList<>();
-
-		audioDataRepo.findAllBySearchQuery(query)
-				.forEach(i -> data.add(i));
+		List<AudioData> data = audioDataRepo
+				.findBySearchQueryAndSource(query, resourceName);
 
 		if (data.isEmpty()) {
-			saveAudioData(query).forEach(i -> data.add(i));
+			AudioResource currentAudioResource = audioResources
+					.stream()
+					.filter(res -> res.getResourceName().equals(resourceName))
+					.findAny()
+					.orElseThrow(() -> new AudioScrapingException("Incorrect resource name"));
+
+			data = saveAudioData(query, currentAudioResource);
 		}
 		return data;
 	}
 
-	private List<AudioData> saveAudioData(String query)
+	private List<AudioData> saveAudioData(String query, AudioResource resource)
 			throws AudioScrapingException {
-		List<AudioData> data = audioScraper.scrapAudio(query);
+
+		List<AudioData> data = resource.scrapAudio(query);
 		if (!data.isEmpty()) {
 			for (AudioData d : data) {
 				audioDataRepo.save(d);

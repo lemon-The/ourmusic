@@ -8,5 +8,9 @@ public class AudioScrapingException extends Exception {
 	AudioScrapingException(Throwable cause) {
 		super(cause);
 	}
+
+	AudioScrapingException(String message) {
+		super(message);
+	}
 	
 }

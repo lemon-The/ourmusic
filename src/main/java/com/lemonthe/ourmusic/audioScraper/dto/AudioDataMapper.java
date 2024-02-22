@@ -9,6 +9,6 @@ public class AudioDataMapper {
 
 	public static AudioDataDTO asAudioDataDTO(AudioData audioData) {
 		return new AudioDataDTO(audioData.getId(), audioData.getTitle(),
-				audioData.getArtist(), audioData.getCoverURL(), audioData.getTrackURL(), audioData.getSource());
+				audioData.getArtist(), audioData.getCoverURL(), audioData.getTrackURL());
 	}
 }

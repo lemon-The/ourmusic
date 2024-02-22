@@ -20,12 +20,20 @@ import lombok.Setter;
 /**
  * HitmoScraper
  */
+// TODO rename HitmoScraper
 @Component
-public class HitmoScraper implements AudioScraper {
+public class HitmoResource implements AudioResource {
 
   @Setter
-  @Value("${scraper.hitmo.url}")
+  @Value("${audio-resource.hitmo.url}")
   private String hitmoURL;
+
+	private final String hitmoName = "hitmo";
+
+	@Override
+	public String getResourceName() {
+		return hitmoName;
+	}
 
   @Override
   public List<AudioData> scrapAudio(String searchQuery)

@@ -1,5 +1,7 @@
 package com.lemonthe.ourmusic;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,8 +16,10 @@ import com.lemonthe.ourmusic.audioScraper.HitmoScraper;
 public class OurmusicConfiguration {
 
 	@Bean
-	public AudioScraperService getAudioScraperService(AudioDataRepository audioDataRepo, HitmoScraper scraper) {
-		return new AudioScraperService(audioDataRepo, scraper);
+	public AudioScraperService getAudioScraperService(
+			AudioDataRepository audioDataRepo,
+			HitmoScraper hitmoScraper) {
+		return new AudioScraperService(audioDataRepo, List.of(hitmoScraper));
 	}
 	
 }
