@@ -50,7 +50,7 @@ public class AudioScraperController {
 			@RequestParam(required = true, value = "src") String audioSourceAlias)
 			 throws AudioScrapingException {
 
-		List<AudioDataDTO> audioDataDTOs = audioScraperService.getAudioData(query, AudioSource.asAudioSource(audioSourceAlias))
+		List<AudioDataDTO> audioDataDTOs = audioScraperService.getAudioData(query, audioSourceAlias)
 			.stream()
 			.map(data -> AudioDataMapper.asAudioDataDTO(data))
 			.collect(Collectors.toList());

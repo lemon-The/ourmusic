@@ -18,5 +18,5 @@ public interface AudioDataRepository extends JpaRepository<AudioData, Long> {
 			+ "WHERE a.searchQuery = ?1")
 	List<AudioData> findAllBySearchQuery(String query);
 
-	List<AudioData> findBySearchQueryAndSource(String query, String resource);
+	List<AudioData> findBySearchQueryAndResource(String query, String resource);
 }

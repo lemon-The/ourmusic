@@ -25,7 +25,7 @@ import lombok.Setter;
 public class HitmoResource implements AudioResource {
 
   @Setter
-  @Value("${audio-resource.hitmo.url}")
+  @Value("${audio-resource.hitmo.url:https://rus.hitmotop.com/}")
   private String hitmoURL;
 
 	private final String hitmoName = "hitmo";
@@ -71,7 +71,7 @@ public class HitmoResource implements AudioResource {
         .select("a[data-nopjax]")
         .attr("href"));
 
-    return new AudioData(title, artist, coverURL, audioURL, searchQuery);
+    return new AudioData(title, artist, coverURL, audioURL, searchQuery, hitmoName);
   }
 
   private Document fetchHTMLPage(String query, int start)

@@ -24,13 +24,15 @@ public class AudioData {
 	private String coverURL;  // source server cover location
 	private String trackURL;  // source server track location
 	private String searchQuery;
+	private String resource;
 
 	public AudioData(String title, String artist, String coverURL,
-			String trackURL, String searchQuery) {
+			String trackURL, String searchQuery, String resource) {
 		this.title = title;
 		this.artist = artist;
 		this.coverURL = coverURL;
 		this.trackURL = trackURL;
 		this.searchQuery = searchQuery;
+		this.resource = resource;
 	}
 }

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.lemonthe.ourmusic.audioScraper.AudioDataRepository;
 import com.lemonthe.ourmusic.audioScraper.AudioScraperService;
-import com.lemonthe.ourmusic.audioScraper.HitmoScraper;
+import com.lemonthe.ourmusic.audioScraper.HitmoResource;
 
 /**
  * OurmusicConfiguration
@@ -18,7 +18,7 @@ public class OurmusicConfiguration {
 	@Bean
 	public AudioScraperService getAudioScraperService(
 			AudioDataRepository audioDataRepo,
-			HitmoScraper hitmoScraper) {
+			HitmoResource hitmoScraper) {
 		return new AudioScraperService(audioDataRepo, List.of(hitmoScraper));
 	}
 	

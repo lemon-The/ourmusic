@@ -3,7 +3,7 @@ package com.lemonthe.ourmusic.audioScraper;
 import java.util.List;
 
 /**
- * AudioScraper
+ * AudioResource
  */
 public interface AudioResource {
 
