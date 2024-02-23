@@ -34,24 +34,24 @@ public class ScraperService {
 	}
 
 	@Transactional
-	public List<AudioData> getAudioData(String query, String websiteName, boolean reloadRequired, Pageable pageable)
+	public List<AudioData> getAudioData(String searchQuery, String websiteName, boolean reloadRequired, Pageable pageable)
 			throws ScrapingException {
 		if (reloadRequired || !audioDataRepo.existsByWebsiteName(websiteName)) {
 			audioDataRepo.deleteAllByWebsiteName(websiteName);
-			saveAudioData(scrapAudioData(query, websiteName));
+			saveAudioData(scrapAudioData(searchQuery, websiteName));
 		}
 		return audioDataRepo
-				.findBySearchQueryAndWebsiteName(query, websiteName, pageable);
+				.findBySearchQueryAndWebsiteName(searchQuery, websiteName, pageable);
 	}
 
-	private List<AudioData> scrapAudioData(String query, String websiteName) 
+	private List<AudioData> scrapAudioData(String searchQuery, String websiteName) 
 			throws ScrapingException {
 		Scraper scraperSelected = scrapers
 				.stream()
 				.filter(scraper -> scraper.getWebsiteName().equals(websiteName))
 				.findAny()
 				.orElseThrow(() -> new ScrapingException("Scraper for " + websiteName + " doesn't exist"));
-		return scraperSelected.scrapAudio(query);
+		return scraperSelected.scrapAudio(searchQuery);
 	}
 
 	private void saveAudioData(List<AudioData> data) {
