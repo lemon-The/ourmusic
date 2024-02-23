@@ -1,6 +1,6 @@
 package com.lemonthe.ourmusic.scraper.dto;
 
-import com.lemonthe.ourmusic.audioScraper.AudioData;
+import com.lemonthe.ourmusic.scraper.AudioData;
 
 /**
  * AudioDataMapper

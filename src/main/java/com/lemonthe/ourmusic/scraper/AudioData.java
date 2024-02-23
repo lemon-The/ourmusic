@@ -21,18 +21,18 @@ public class AudioData {
 	private Long id;
 	private String title;
 	private String artist;
-	private String coverURL;  // source server cover location
-	private String trackURL;  // source server track location
+	private String coverURL;
+	private String trackURL;
 	private String searchQuery;
-	private String resource;
+	private String websiteName;
 
 	public AudioData(String title, String artist, String coverURL,
-			String trackURL, String searchQuery, String resource) {
+			String trackURL, String searchQuery, String websiteName) {
 		this.title = title;
 		this.artist = artist;
 		this.coverURL = coverURL;
 		this.trackURL = trackURL;
 		this.searchQuery = searchQuery;
-		this.resource = resource;
+		this.websiteName = websiteName;
 	}
 }

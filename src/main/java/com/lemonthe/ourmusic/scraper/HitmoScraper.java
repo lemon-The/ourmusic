@@ -20,7 +20,6 @@ import lombok.Setter;
 /**
  * HitmoScraper
  */
-// TODO rename HitmoScraper
 @Component
 public class HitmoScraper implements Scraper {
 
@@ -38,70 +37,82 @@ public class HitmoScraper implements Scraper {
   @Override
   public List<AudioData> scrapAudio(String searchQuery)
 			throws ScrapingException {
-    List<AudioData> data = new LinkedList<>();
-		int audioDataIndex = 0;
+		List<AudioData> data = new LinkedList<>();
 
-		while (audioDataIndex < 10) {
-      Document htmlPage = fetchHTMLPage(searchQuery, audioDataIndex);
+		//data of first audio on current page and ...
+		AudioData audioCurrent = null;
+		//... on previous page
+		AudioData audioPrevious = null;
+		int audioIndex = 0;
+		
+		/* If audioIndex is greater than total amount of audio for this searchQuery,
+		 * hitmo returns the last available audio.
+		 * Parse audio until audioCurrent and audioPrevious are equal */
+		while (true) {
+			Document htmlPage = fetchHTMLPage(searchQuery, audioIndex);
+			
+			//html code blocks containing audio data
+			Elements htmlBlocks = htmlPage.select("li[data-musid]");
+			if (htmlBlocks.isEmpty()){
+				return data;
+			}
 
-      // html code blocks containing audio data
-      Elements htmlBlocks = htmlPage.select("li[data-musid]");
+			audioCurrent = parseDataFromHTMLBlock(htmlBlocks.get(0), searchQuery);
+			if (audioPrevious != null
+					&& audioPrevious.equals(audioCurrent)) {
+				return data;
+			}
 
-      if (htmlBlocks.isEmpty()) {
-        return data;
-      }
+			for (Element block : htmlBlocks) {
+				AudioData fetchedAudioData = parseDataFromHTMLBlock(block, searchQuery);
+				data.add(fetchedAudioData);
+				audioIndex++;
+			}
+			audioPrevious = audioCurrent;
+		}
+	}
 
-      for (Element block : htmlBlocks) {
-        AudioData fetchedAudio = fetchDataFromHTMLBlock(block, searchQuery);
-        data.add(fetchedAudio);
-        audioDataIndex++;
-      }
+	private Document fetchHTMLPage(String searchQuery, int start)
+			throws ScrapingException {
+		Document htmlPage;
+		try {
+			htmlPage = 
+				Jsoup.connect(hitmoURL + "search/start/" + start)
+					.userAgent("Mozilla")
+					.data("q", searchQuery) 
+					.get();
+		} catch (MalformedURLException
+				| HttpStatusException
+				| UnsupportedMimeTypeException
+				| SocketTimeoutException e) {
+			throw new ScrapingException(e);
+		} catch (IOException e) {
+			throw new ScrapingException(e);
+		}
+		return htmlPage;
+	}
 
-    }
-		return data;
-  }
+	private AudioData parseDataFromHTMLBlock(Element block, String searchQuery) {
+		String title = block.select("div.track__title").text();
+		String artist = block.select("div.track__desc").text();
+		String coverURL =
+			//fetchCoverLocation(block
+			//		.select("div[style^=background-image:]")
+			//		.attr("style"));
+			parseCoverURL(block
+					.select("div.track__img")
+					.attr("style"));
+		String audioURL = block.select("a[data-nopjax]").attr("href");
+					//.select("a.track__download-btn")
 
-  private AudioData fetchDataFromHTMLBlock(Element block, String searchQuery) {
-    String title = block.select("div.track__title").text();
-    String artist = block.select("div.track__desc").text();
-    String coverURL = fetchCoverLocation(block
-        .select("div[style^=background-image:]")
-        .attr("style"));
-    String audioURL = fetchAudioLocation(block
-        .select("a[data-nopjax]")
-        .attr("href"));
+		return new AudioData(title, artist, coverURL, audioURL, searchQuery,
+				hitmoName);
+	}
 
-    return new AudioData(title, artist, coverURL, audioURL, searchQuery, hitmoName);
-  }
-
-  private Document fetchHTMLPage(String query, int start)
-      throws ScrapingException {
-    try {
-      return Jsoup.connect(hitmoURL + "search/start/" + start)
-          .userAgent("Mozilla")
-          .timeout(3000)
-          .data("q", query).get();
-    } catch (MalformedURLException
-        | HttpStatusException
-        | UnsupportedMimeTypeException
-        | SocketTimeoutException e) {
-      throw new ScrapingException(e);
-    } catch (IOException e) {
-      throw new ScrapingException(e);
-    }
-  }
-
-  private String fetchCoverLocation(String coverString) {
-    int startIndex = coverString.indexOf('(') + 1;
-    int endIndex = coverString.lastIndexOf(')') - 1;
-    return coverString.substring(startIndex, endIndex);
-  }
-
-  private String fetchAudioLocation(String audioString) {
-    //int startIndex = audioString.indexOf('/', hitmoURL.length() - 1) + 1;
-    int startIndex = 0;
-    int endIndex = audioString.length();
-    return audioString.substring(startIndex, endIndex);
-  }
+	private String parseCoverURL(String coverString) {
+		int beginIndex = coverString.indexOf('\'')+1;
+		int endIndex = coverString.lastIndexOf('\'');
+		return coverString.substring(beginIndex, endIndex);
+	}
 
 }
