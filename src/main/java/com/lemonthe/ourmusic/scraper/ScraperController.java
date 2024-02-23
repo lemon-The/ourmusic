@@ -33,7 +33,7 @@ public class ScraperController {
 			@RequestParam(value = "r", defaultValue = "false") boolean reloadRequired,
 			@RequestParam("src") String websiteName,
 			@PageableDefault(sort = "id") Pageable pageable)
-			 throws ScrapingException {
+			throws ScrapingException {
 		List<AudioDataDTO> audioDataDTOs = scraperService
 				.getAudioData(query, websiteName, reloadRequired, pageable)
 				.stream()
