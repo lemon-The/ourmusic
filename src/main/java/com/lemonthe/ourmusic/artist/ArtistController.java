@@ -38,7 +38,7 @@ public class ArtistController {
   @GetMapping
   public ResponseEntity<List<Artist>> getArtists() {
 		//TODO consider remove error on empty list. It should return empty list (?)
-    List<Artist> artists = artistService.getArtists();
+    List<Artist> artists = artistService.getApprovedArtists();
     if (artists.isEmpty()) {
       throw new ResponseStatusException(HttpStatus.NO_CONTENT);
     }
