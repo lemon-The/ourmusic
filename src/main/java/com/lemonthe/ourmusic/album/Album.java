@@ -1,15 +1,13 @@
 package com.lemonthe.ourmusic.album;
 
-import java.util.List;
-
-import com.lemonthe.ourmusic.track.Track;
+import com.lemonthe.ourmusic.review.ReviewStatus;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +15,7 @@ import lombok.NoArgsConstructor;
  * Album
  */
 @Entity
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,12 +25,6 @@ public class Album {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
   private String title;
+	private ReviewStatus status;
 
-  @OneToMany
-  private List<Track> tracks;
-
-  public Album(String title, List<Track> tracks) {
-    this.title = title;
-    this.tracks = tracks;
-  }
 }

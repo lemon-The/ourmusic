@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lemonthe.ourmusic.album.dto.AlbumCreationDTO;
+import com.lemonthe.ourmusic.album.dto.AlbumMapping;
 
 import jakarta.validation.Valid;
 
@@ -56,7 +57,7 @@ public class AlbumController {
     if (errors.hasErrors()) {
       return ResponseEntity.badRequest().body(errors);
     }
-    Album album = albumService.save(albumDTO.asAlbum());
+    Album album = albumService.save(AlbumMapping.asAlbum(albumDTO));
     URI location = ServletUriComponentsBuilder
         .fromCurrentRequest()
         .path("/{id}")

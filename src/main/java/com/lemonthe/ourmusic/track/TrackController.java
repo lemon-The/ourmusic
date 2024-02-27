@@ -10,6 +10,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lemonthe.ourmusic.track.dto.TrackCreationDTO;
+import com.lemonthe.ourmusic.track.dto.TrackMapper;
 
 import jakarta.validation.Valid;
 
@@ -50,14 +52,15 @@ public class TrackController {
         }));
   }
 
-  @RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT})
+  //@RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT})
+	@PostMapping
   public ResponseEntity<?> createTrack(
       @Valid @RequestBody TrackCreationDTO trackDTO,
       Errors errors) {
     if (errors.hasErrors()) {
       return ResponseEntity.badRequest().body(errors);
     }
-    Track track = trackService.save(trackDTO.asTrack());
+    Track track = trackService.save(TrackMapper.asTrack(trackDTO));
     // TODO read more about ServletUriComponentsBuilder
     URI location = ServletUriComponentsBuilder
         .fromCurrentRequest()

@@ -7,6 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lemonthe.ourmusic.album.AlbumRepository;
+import com.lemonthe.ourmusic.album.AlbumService;
+import com.lemonthe.ourmusic.artist.ArtistRepository;
+import com.lemonthe.ourmusic.artist.ArtistService;
+
 /**
  * TrackService
  */
@@ -15,6 +20,12 @@ public class TrackService {
 
   @Autowired
   private TrackRepository trackRepo;
+
+  @Autowired
+	private ArtistService artistService;
+
+  @Autowired
+	private AlbumService albumService;
 
   @Transactional
   public List<Track> getTracks() {
@@ -30,6 +41,13 @@ public class TrackService {
   public Track save(Track track) {
     return trackRepo.save(track);
   }
+
+	//@Transactional
+	//public Track addToPremod(Track track) {
+	//	if (!albumService.existsById(track.getAlbum().getId())) {
+
+	//	}
+	//}
 
   @Transactional
   public void delete(Long id) {

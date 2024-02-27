@@ -62,10 +62,10 @@ public class OurmusicConfiguration {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http//.build();
-			//.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+			.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
 					//.requestMatchers(HttpMethod.POST, "/user").authenticated()
 					//.requestMatchers("/userer").permitAll()
-					//.anyRequest().permitAll())
+					.anyRequest().permitAll())
 			.csrf(csrf -> csrf.disable())
 			.httpBasic(Customizer.withDefaults()).build();
 	}
