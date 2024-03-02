@@ -2,7 +2,6 @@ package com.lemonthe.ourmusic.artist.dto;
 
 import com.lemonthe.ourmusic.artist.Artist;
 import com.lemonthe.ourmusic.artist.ArtistId;
-import com.lemonthe.ourmusic.user.User;
 
 /**
  * ArtistMapper
@@ -29,11 +28,11 @@ public class ArtistMapper {
 		return new ArtistGetDTO(artist.getResourceId().getId(), artist.getName());
 	}
 
-	public static ArtistGetPengingDTO asArtistGetPengingDTO(Artist artist) {
+	public static ArtistGetPendingDTO asArtistGetPengingDTO(Artist artist) {
 		if (artist.getResourceId() == null)
-			return new ArtistGetPengingDTO(artist.getId(), null, artist.getName());
+			return new ArtistGetPendingDTO(artist.getId(), null, artist.getName());
 		else
-			return new ArtistGetPengingDTO(artist.getId(), artist.getResourceId().getId(), artist.getName());
+			return new ArtistGetPendingDTO(artist.getId(), artist.getResourceId().getId(), artist.getName());
 		
 	}
 

@@ -8,6 +8,6 @@ import jakarta.validation.constraints.NotBlank;
  * AlbumCreationDTO
  */
 public record AlbumCreationDTO(
-    Long id,
+    Long resourceId,
     @NotBlank String title) {
 }

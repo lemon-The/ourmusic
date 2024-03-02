@@ -1,12 +1,12 @@
-package com.lemonthe.ourmusic.artist.dto;
+package com.lemonthe.ourmusic.album.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * ArtistGetPengingDTO
+ * AlbymGetPendingDTO
  */
-public record ArtistGetPengingDTO(
+public record AlbumGetPendingDTO(
 		@NotNull Long id,
 		@NotNull Long resourceId,
 		@NotBlank String name) {

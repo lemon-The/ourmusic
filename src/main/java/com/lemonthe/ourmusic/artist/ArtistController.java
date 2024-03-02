@@ -24,7 +24,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lemonthe.ourmusic.artist.dto.ArtistCreationDTO;
 import com.lemonthe.ourmusic.artist.dto.ArtistGetDTO;
-import com.lemonthe.ourmusic.artist.dto.ArtistGetPengingDTO;
+import com.lemonthe.ourmusic.artist.dto.ArtistGetPendingDTO;
 import com.lemonthe.ourmusic.artist.dto.ArtistMapper;
 import com.lemonthe.ourmusic.user.User;
 import com.lemonthe.ourmusic.user.UserService;
@@ -61,7 +61,7 @@ public class ArtistController {
 
 	//TODO consider move roles to own class
   @GetMapping("/pending")
-  public ResponseEntity<List<ArtistGetPengingDTO>> getUserPendingArtists(
+  public ResponseEntity<List<ArtistGetPendingDTO>> getUserPendingArtists(
 			@AuthenticationPrincipal UserDetails userDetails) {
 		boolean userModerator = userDetails.getAuthorities()
 			.stream()
