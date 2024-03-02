@@ -6,6 +6,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -53,8 +55,12 @@ public class OurmusicConfiguration {
   @Bean
   public CommandLineRunner dataLoader(UserRepository userRepository) {
     return args -> {
-			userRepository.deleteAll();
-			User user = new User("adm", passwordEncoder().encode("pass"), "email@test.com", "ROLE_ADMIN");
+			if (userRepository.count() > 0)
+				return;
+			//userRepository.deleteAll();
+			User admin = new User("adm", passwordEncoder().encode("pass"), "email@test.com", "ROLE_ADMIN");
+			User user = new User("user", passwordEncoder().encode("pass"), "email@test.com", "ROLE_USER");
+			userRepository.save(admin);
 			userRepository.save(user);
     };
   }
@@ -63,11 +69,33 @@ public class OurmusicConfiguration {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http//.build();
 			.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-					//.requestMatchers(HttpMethod.POST, "/user").authenticated()
+					.requestMatchers(HttpMethod.POST, "/artist")
+							.authenticated()
+					.requestMatchers(HttpMethod.GET, "/artist/pending")
+							.authenticated()
+					.requestMatchers(HttpMethod.GET, "/artist/pending/{id}")
+							.authenticated()
+					.requestMatchers(HttpMethod.PATCH, "/artist/pending/approve/{id}")
+							.hasAnyRole("ADMIN", "MODERATOR")
+					.requestMatchers(HttpMethod.PATCH, "/artist/pending/reject/{id}")
+							.hasAnyRole("ADMIN", "MODERATOR")
+					.requestMatchers(HttpMethod.DELETE, "/artist/delete/{id}")
+							.hasAnyRole("ADMIN", "MODERATOR")
+					.requestMatchers(HttpMethod.GET, "/artist/log/{id}")
+							.hasAnyRole("ADMIN", "MODERATOR")
+
 					//.requestMatchers("/userer").permitAll()
 					.anyRequest().permitAll())
 			.csrf(csrf -> csrf.disable())
 			.httpBasic(Customizer.withDefaults()).build();
+	}
+
+	@Bean
+	public RoleHierarchy roleHierarchy() {
+    RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+    String hierarchy = "ROLE_ADMIN > ROLE_MODERATOR \n ROLE_MODERATOR > ROLE_USER";
+    roleHierarchy.setHierarchy(hierarchy);
+    return roleHierarchy;
 	}
 	
 }

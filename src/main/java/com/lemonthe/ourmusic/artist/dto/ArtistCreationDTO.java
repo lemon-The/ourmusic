@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank;
  * ArtistCreationDTO
  */
 public record ArtistCreationDTO(
-    //Long id,
+		Long resourceId,
     @NotBlank String name) {
-
 }

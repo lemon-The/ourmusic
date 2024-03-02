@@ -5,6 +5,7 @@ package com.lemonthe.ourmusic.review;
  */
 public enum ReviewStatus {
 	PENDING,
-	APPROVED,
-	REJECTED,
+	ACTUAL,
+	OUTDATED,
+	//REJECTED,
 }

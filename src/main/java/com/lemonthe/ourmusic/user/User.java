@@ -33,6 +33,7 @@ public class User implements UserDetails {
 	private String username;
 	private String password;
 	private String email;
+	//TODO consider move roles to own class
 	private String role;
 
 	public User(String username, String password, String email, String role) {
@@ -44,7 +45,7 @@ public class User implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+		return Arrays.asList(new SimpleGrantedAuthority(role));
 		//return List.of(new SimpleGrantedAuthority(role));
 	}
 
