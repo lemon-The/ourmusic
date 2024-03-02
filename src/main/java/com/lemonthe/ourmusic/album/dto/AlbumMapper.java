@@ -6,7 +6,7 @@ import com.lemonthe.ourmusic.review.ReviewStatus;
 /**
  * AlbumMapping
  */
-public class AlbumMapping {
+public class AlbumMapper {
 
 	public static Album asAlbum(AlbumCreationDTO albumDTO) {
 		return Album.builder()
