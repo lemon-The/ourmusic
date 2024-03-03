@@ -19,7 +19,7 @@ public class AlbumMapper {
 	public static Album asAlbum(AlbumPutDTO albumDTO) {
 		return Album.builder()
 			.resourceId(new AlbumResourceId(albumDTO.resourceId()))
-			.title(albumDTO.name())
+			.title(albumDTO.title())
 			//.suggestedBy(suggestedBy)
 			.build();
 	}

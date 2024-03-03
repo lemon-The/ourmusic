@@ -9,5 +9,5 @@ import jakarta.validation.constraints.NotNull;
 public record AlbumGetPendingDTO(
 		@NotNull Long id,
 		@NotNull Long resourceId,
-		@NotBlank String name) {
+		@NotBlank String title) {
 }

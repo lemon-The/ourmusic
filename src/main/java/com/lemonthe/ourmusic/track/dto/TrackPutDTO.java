@@ -5,16 +5,14 @@ import java.util.List;
 
 import com.lemonthe.ourmusic.album.Album;
 import com.lemonthe.ourmusic.artist.Artist;
-import com.lemonthe.ourmusic.review.ReviewStatus;
-import com.lemonthe.ourmusic.track.Track;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * TrackCreationDTO
+ * TrackPutDTO
  */
-public record TrackCreationDTO(
+public record TrackPutDTO(
     Long resourceId,
     @NotBlank String title,
     @NotNull Year releaseYear,

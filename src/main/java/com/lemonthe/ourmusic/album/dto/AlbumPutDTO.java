@@ -5,5 +5,5 @@ package com.lemonthe.ourmusic.album.dto;
  */
 public record AlbumPutDTO(
 		Long resourceId,
-		String name) {
+		String title) {
 }

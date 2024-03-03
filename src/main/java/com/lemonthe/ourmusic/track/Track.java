@@ -1,11 +1,13 @@
 package com.lemonthe.ourmusic.track;
 
+import java.time.LocalDateTime;
 import java.time.Year;
 import java.util.List;
 
 import com.lemonthe.ourmusic.album.Album;
 import com.lemonthe.ourmusic.artist.Artist;
 import com.lemonthe.ourmusic.review.ReviewStatus;
+import com.lemonthe.ourmusic.user.User;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,14 +33,26 @@ public class Track {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
+
+	@ManyToOne
+	private TrackResourceId resourceId;
   private String title;
-  private Year releaseYear; 
+  private Year releaseYear;
 	private ReviewStatus status;
+
+	private LocalDateTime creationTime;
+	private LocalDateTime approvingTime;
 
   @ManyToMany
   private List<Artist> artists;
 
 	@ManyToOne
 	private Album album;
+
+	@ManyToOne
+	private User suggestedBy;
+
+	@ManyToOne
+	private User moderatedBy;
 
 }

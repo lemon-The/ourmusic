@@ -8,5 +8,5 @@ import jakarta.validation.constraints.NotNull;
  */
 public record AlbumGetDTO(
 		@NotNull Long resourceId,
-		@NotBlank String name) {
+		@NotBlank String title) {
 }

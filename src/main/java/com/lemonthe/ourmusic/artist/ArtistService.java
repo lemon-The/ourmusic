@@ -102,5 +102,9 @@ public class ArtistService {
     //artistRepo.deleteAllByResourceId(resourceId);
 		artistIdRepo.deleteById(resourceId);
 	}
+
+	public boolean isArtistExist(Artist otherArtist) {
+		return artistRepo.equalsByNameAndResourceId(otherArtist);
+	}
   
 }
