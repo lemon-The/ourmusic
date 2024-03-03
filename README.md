@@ -10,7 +10,7 @@
 Create a public audio library
 </div>
 
-A community-driven server that generates audio tracks, where users can enter
+A community-driven server for audio tracks, where users can enter
 and edit data for audio files. It has a moderation system that allows you to
 monitor compliance with standards and the relevance of the data provided by
 users. A built-in audio site scraper provides the ability to conveniently
